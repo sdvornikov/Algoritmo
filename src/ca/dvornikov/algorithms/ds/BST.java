@@ -14,6 +14,11 @@ public class BST<T> implements DynamicSet<T> {
 		Node<V> left;
 		Node<V> right;
 		Node<V> p;
+		Node(int key, V value, Node<V> p) {
+			this.key = key;
+			this.value = value;
+			this.p = p;
+		}
 	}
 
 	@Override
@@ -24,8 +29,24 @@ public class BST<T> implements DynamicSet<T> {
 
 	@Override
 	public void insert(int key, T value) {
-		//Node
-		
+		if(root == null) {
+			root = new Node<T>(key, value, null);
+			return;
+		}
+		Node<T> head = root;
+		while (true) {
+			if(key >= head.key && head.right != null)
+				head = head.right;
+			else if(key < head.key && head.left != null)
+				head = head.left;
+			else
+				break;
+		}
+		if(key >= head.key)
+			head.right = new Node<T>(key, value, head);
+		else
+			head.left = new Node<T>(key, value, head);
+		size++;
 	}
 
 	@Override
@@ -41,10 +62,13 @@ public class BST<T> implements DynamicSet<T> {
 	
 	boolean isValidBST() {
 		try {
-			inOrderWalkWithOperation(root, n -> {if (n.key<n.left.key || n.key>n.right.key) 
+			inOrderWalkWithOperation(root, n -> {if (n.p != null && 
+													 ((n == n.p.left && n.key >= n.p.key) 
+													||(n == n.p.right &&  n.key < n.p.key))) 
 													throw new IllegalStateException("BST property violated: current node key=" + n.key
-															+ " left node=" + n.left.key
-															+ " right node=" + n.right.key);});
+															+ " which is " + (n == n.p.left?"left":"right")
+															+ " child of node with key="
+															+ n.p.key);});
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 			return false;

@@ -2,19 +2,9 @@ package ca.dvornikov.algorithms.ds;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class BSTTest {
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
 
 	@Test
 	public void testGet() {
@@ -23,7 +13,14 @@ public class BSTTest {
 
 	@Test
 	public void testInsert() {
-		fail("Not yet implemented");
+		final BST<Object> bst = new BST<Object>();
+		bst.insert(5, null);
+		bst.insert(5, null);
+		bst.insert(1, null);
+		bst.insert(7, null);
+		bst.insert(10, null);
+		bst.insert(5, null);
+		assertTrue(bst.isValidBST());
 	}
 
 	@Test
@@ -33,7 +30,16 @@ public class BSTTest {
 
 	@Test
 	public void testSize() {
-		fail("Not yet implemented");
+		final BST<Object> bst = new BST<Object>();
+		assertEquals("Empty BST must have zero size", 0, bst.size());
+		bst.insert(5, null);
+		bst.insert(5, null);
+		bst.insert(1, null);
+		assertEquals("BST size must be 3", 3, bst.size());
+		bst.remove(5);
+		bst.remove(5);
+		bst.remove(1);
+		assertEquals("Empty BST must have zero size", 0, bst.size());
 	}
 
 }
