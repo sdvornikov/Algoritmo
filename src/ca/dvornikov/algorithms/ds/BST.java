@@ -23,14 +23,17 @@ public class BST<T> implements DynamicSet<T> {
 
 	@Override
 	public T get(int key) {
-		// TODO Auto-generated method stub
-		return null;
+		Node<T> node = findNode(key);
+		if (node == null)
+			return null;
+		return node.value;
 	}
 
 	@Override
 	public void insert(int key, T value) {
 		if(root == null) {
 			root = new Node<T>(key, value, null);
+			size = 1;
 			return;
 		}
 		Node<T> head = root;
@@ -51,8 +54,10 @@ public class BST<T> implements DynamicSet<T> {
 
 	@Override
 	public T remove(int key) {
-		// TODO Auto-generated method stub
-		return null;
+		Node<T> x = findNode(key);
+		T deletedValue = x == null ? null : x.value;
+		deleteNode(x);
+		return deletedValue;
 	}
 
 	@Override
@@ -91,5 +96,41 @@ public class BST<T> implements DynamicSet<T> {
 		operation.accept(head);
 		inOrderWalkWithOperation(head.right, operation);
 	}
+	
+	private Node<T> findNode(int key) {
+		Node<T> head = root;
+		if(head == null)
+			return null;
+		while (key != head.key) {
+			if(key > head.key)
+				head = head.right;
+			else if (key < head.key)
+				head = head.left;
+		}
+		return head;
+	}
 
+	private void transplant(Node<T> to, Node<T> from) {
+		if (to == root) {
+			root = from;
+		} else if (to == to.p.left) {
+			to.p.left = from;
+		} else {
+			to.p.right = from;
+		}
+		if (from != null) {
+			from.p = to.p;
+		}
+	}
+	
+	private void deleteNode(Node<T> node) {
+		throw new UnsupportedOperationException("Deletion not implemented");
+		//TODO
+		// transplant left if right free
+		// transplant right if left is free
+		// find max in right sub-tree
+		// transplant its right child to it,
+		// transplant it to the node
+		// fix pointers
+	}
 }

@@ -20,12 +20,22 @@ public class BSTTest {
 		bst.insert(7, null);
 		bst.insert(10, null);
 		bst.insert(5, null);
+		assertEquals("BST size must be 6", 6, bst.size());
 		assertTrue(bst.isValidBST());
 	}
 
 	@Test
 	public void testRemove() {
-		fail("Not yet implemented");
+		final BST<Object> bst = new BST<Object>();
+		bst.insert(5, null);
+		bst.insert(5, null);
+		bst.insert(1, null);
+		bst.insert(7, null);
+		bst.insert(10, null);
+		bst.insert(5, null);
+		bst.remove(5);
+		assertEquals("BST size must be 5 after deletion", 5, bst.size());
+		assertTrue(bst.isValidBST());
 	}
 
 	@Test
