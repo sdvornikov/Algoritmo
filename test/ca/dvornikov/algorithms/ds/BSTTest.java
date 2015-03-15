@@ -24,17 +24,94 @@ public class BSTTest {
 		assertTrue(bst.isValidBST());
 	}
 
+	/**
+	 * Tests case when left children is null
+	 * 
+	 * 		   10
+	 * 		  /
+	 * 		 2
+	 * 		  \
+	 * 		   5
+	 * 
+	 * removing 2
+	 */
 	@Test
-	public void testRemove() {
+	public void testRemoveCase1() {
+		final BST<Object> bst = new BST<Object>();
+		bst.insert(10, null);
+		bst.insert(2, null);
+		bst.insert(5, null);
+		bst.remove(2);
+		assertTrue(bst.isValidBST());
+	}
+	
+	/**
+	 * Tests case when right children is null
+	 * 
+	 * 		   10
+	 * 		  / 
+	 * 		 2
+	 * 		/
+	 * 	   1
+	 * 
+	 * removing 2
+	 */
+	@Test
+	public void testRemoveCase2() {
+		final BST<Object> bst = new BST<Object>();
+		bst.insert(10, null);
+		bst.insert(2, null);
+		bst.insert(1, null);
+		bst.remove(2);
+		assertTrue(bst.isValidBST());
+	}
+	
+	/**
+	 * Removal with not null children and children are not leafs
+	 * 
+	 * 	10
+	 *     \
+	 *       20
+	 *    /     \
+	 *  15       30
+	 *    \     /  \
+	 *    17   25  40
+	 *          \
+	 *           27
+	 *           
+	 * removing 20
+	 */
+	@Test
+	public void testRemoveCase3() {
+		final BST<Object> bst = new BST<Object>();
+		bst.insert(10, null);
+		bst.insert(20, null);
+		bst.insert(15, null);
+		bst.insert(17, null);
+		bst.insert(30, null);
+		bst.insert(25, null);
+		bst.insert(27, null);
+		bst.insert(40, null);
+		bst.remove(20);
+		assertTrue(bst.isValidBST());
+	}
+	
+	/**
+	 * Case when we remove the root with both children. Children are leaf nodes
+	 * 
+	 * 		5
+	 * 	   / \
+	 *    2   6
+	 *    
+	 *  removing 5
+	 */
+	@Test
+	public void testRemoveRoot() {
 		final BST<Object> bst = new BST<Object>();
 		bst.insert(5, null);
-		bst.insert(5, null);
-		bst.insert(1, null);
-		bst.insert(7, null);
-		bst.insert(10, null);
-		bst.insert(5, null);
+		bst.insert(2, null);
+		bst.insert(6, null);
 		bst.remove(5);
-		assertEquals("BST size must be 5 after deletion", 5, bst.size());
 		assertTrue(bst.isValidBST());
 	}
 

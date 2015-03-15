@@ -124,13 +124,29 @@ public class BST<T> implements DynamicSet<T> {
 	}
 	
 	private void deleteNode(Node<T> node) {
-		throw new UnsupportedOperationException("Deletion not implemented");
-		//TODO
-		// transplant left if right free
-		// transplant right if left is free
-		// find max in right sub-tree
-		// transplant its right child to it,
-		// transplant it to the node
-		// fix pointers
+		if(node.right == null) {
+			transplant(node, node.left);
+		} else if (node.left == null) {
+			transplant(node, node.right);
+		} else {
+			Node<T> y = findMaxKey(node.right);
+			transplant(y, y.right);
+			transplant(node, y);
+			y.right = node.right;
+			y.left = node.left;
+			y.left.p = y;
+			y.right.p = y;
+		}
+		if(node != null) {
+			size--;
+		}
+	}
+
+	Node<T> findMaxKey(Node<T> node) {
+		Node<T> result = node;
+		while (result.left != null) {
+			result = result.left;
+		}
+		return result;
 	}
 }
