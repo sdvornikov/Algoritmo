@@ -8,7 +8,12 @@ public class BSTTest {
 
 	@Test
 	public void testGet() {
-		fail("Not yet implemented");
+		final int KEY = 20;
+		final Object value = new Object();
+		final BST<Object> bst = new BST<Object>();
+		bst.insert(KEY, value);
+		final Object bstValue = bst.get(KEY);
+		assertEquals("Object returned from BST must be the same as inserted", value, bstValue);
 	}
 
 	@Test

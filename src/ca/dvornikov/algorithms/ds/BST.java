@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Implementation of Binary Search Tree
+ * Most of the operation implementations are from CLRS
+ * @author Sergey Dvornikov
+ *
+ * @param <T> type of a satellite data to be stored at a tree node
+ */
 public class BST<T> implements DynamicSet<T> {
 	private Node<T> root;
 	private int size;
 	
-	private class Node<V> {
+	private static class Node<V> {
 		int key;
 		V value;
 		Node<V> left;
@@ -29,27 +36,12 @@ public class BST<T> implements DynamicSet<T> {
 		return node.value;
 	}
 
+	/**
+	 * Non recursive implementation of BST insert
+	 */
 	@Override
 	public void insert(int key, T value) {
-		if(root == null) {
-			root = new Node<T>(key, value, null);
-			size = 1;
-			return;
-		}
-		Node<T> head = root;
-		while (true) {
-			if(key >= head.key && head.right != null)
-				head = head.right;
-			else if(key < head.key && head.left != null)
-				head = head.left;
-			else
-				break;
-		}
-		if(key >= head.key)
-			head.right = new Node<T>(key, value, head);
-		else
-			head.left = new Node<T>(key, value, head);
-		size++;
+		bst_insert(new Node<T>(key, value, null));
 	}
 
 	@Override
@@ -86,6 +78,26 @@ public class BST<T> implements DynamicSet<T> {
 		final List<Integer> result = new ArrayList<Integer>();
 		inOrderWalkWithOperation(root, n -> result.add(n.key));
 		return result;
+	}
+	
+	void bst_insert(Node<T> node) {
+		Node<T> y = null;
+		Node<T> head = root;
+		while (head != null) {
+			y = head;
+			if(node.key >= head.key)
+				head = head.right;
+			else if(node.key < head.key)
+				head = head.left;
+		}
+		node.p = y;
+		if(y == null)
+			this.root = node;
+		else if(node.key >= y.key)
+			y.right = node;
+		else
+			y.left = node;
+		size++;
 	}
 	
 	private void inOrderWalkWithOperation(Node<T> head, Consumer<Node<T>> operation) {
@@ -144,7 +156,7 @@ public class BST<T> implements DynamicSet<T> {
 		}
 	}
 
-	Node<T> findMaxKey(Node<T> node) {
+	private Node<T> findMaxKey(Node<T> node) {
 		Node<T> result = node;
 		while (result.left != null) {
 			result = result.left;
