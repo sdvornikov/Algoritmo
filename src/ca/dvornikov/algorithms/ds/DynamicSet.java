@@ -1,8 +1,8 @@
 package ca.dvornikov.algorithms.ds;
 
-public interface DynamicSet <T> {
-	T get(int key);
-	void insert(int key, T value);
-	T remove(int key);
+public interface DynamicSet <K extends Comparable<K>, T> {
+	T get(K key);
+	void insert(K key, T value);
+	T remove(K key);
 	int size();
 }

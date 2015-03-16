@@ -11,17 +11,15 @@ import java.util.function.Consumer;
  *
  * @param <T> type of a satellite data to be stored at a tree node
  */
-public class BST<T> implements DynamicSet<T> {
-	private Node<T> root;
+public class BST<K extends Comparable<K>,T> implements DynamicSet<K, T> {
+	private Node<K,T> root;
 	private int size;
 	
-	private static class Node<V> {
-		int key;
-		V value;
-		Node<V> left;
-		Node<V> right;
-		Node<V> p;
-		Node(int key, V value, Node<V> p) {
+	private static class Node<K extends Comparable<K>, V> extends BaseNode<K, V>{
+		Node<K,V> left;
+		Node<K,V> right;
+		Node<K,V> p;
+		Node(K key, V value, Node<K,V> p) {
 			this.key = key;
 			this.value = value;
 			this.p = p;
@@ -29,8 +27,8 @@ public class BST<T> implements DynamicSet<T> {
 	}
 
 	@Override
-	public T get(int key) {
-		Node<T> node = findNode(key);
+	public T get(K key) {
+		Node<K,T> node = findNode(key);
 		if (node == null)
 			return null;
 		return node.value;
@@ -40,13 +38,13 @@ public class BST<T> implements DynamicSet<T> {
 	 * Non recursive implementation of BST insert
 	 */
 	@Override
-	public void insert(int key, T value) {
-		bst_insert(new Node<T>(key, value, null));
+	public void insert(K key, T value) {
+		bst_insert(new Node<K,T>(key, value, null));
 	}
 
 	@Override
-	public T remove(int key) {
-		Node<T> x = findNode(key);
+	public T remove(K key) {
+		Node<K,T> x = findNode(key);
 		T deletedValue = x == null ? null : x.value;
 		deleteNode(x);
 		return deletedValue;
@@ -57,11 +55,16 @@ public class BST<T> implements DynamicSet<T> {
 		return size;
 	}
 	
+	@Override
+	public String toString() {
+		return "BST [size=" + size + "]";
+	}
+	
 	boolean isValidBST() {
 		try {
 			inOrderWalkWithOperation(root, n -> {if (n.p != null && 
-													 ((n == n.p.left && n.key >= n.p.key) 
-													||(n == n.p.right &&  n.key < n.p.key))) 
+													 ((n == n.p.left && n.key.compareTo(n.p.key)>=0) 
+													||(n == n.p.right &&  n.key.compareTo(n.p.key)<0))) 
 													throw new IllegalStateException("BST property violated: current node key=" + n.key
 															+ " which is " + (n == n.p.left?"left":"right")
 															+ " child of node with key="
@@ -74,33 +77,33 @@ public class BST<T> implements DynamicSet<T> {
 		
 	}
 	
-	List<Integer> listKeysInOrder() {
-		final List<Integer> result = new ArrayList<Integer>();
+	List<K> listKeysInOrder() {
+		final List<K> result = new ArrayList<K>();
 		inOrderWalkWithOperation(root, n -> result.add(n.key));
 		return result;
 	}
 	
-	void bst_insert(Node<T> node) {
-		Node<T> y = null;
-		Node<T> head = root;
+	void bst_insert(Node<K,T> node) {
+		Node<K,T> y = null;
+		Node<K,T> head = root;
 		while (head != null) {
 			y = head;
-			if(node.key >= head.key)
+			if(node.key.compareTo(head.key) >= 0)
 				head = head.right;
-			else if(node.key < head.key)
+			else if(node.key.compareTo(head.key) < 0)
 				head = head.left;
 		}
 		node.p = y;
 		if(y == null)
 			this.root = node;
-		else if(node.key >= y.key)
+		else if(node.key.compareTo(y.key) >= 0)
 			y.right = node;
 		else
 			y.left = node;
 		size++;
 	}
 	
-	private void inOrderWalkWithOperation(Node<T> head, Consumer<Node<T>> operation) {
+	private void inOrderWalkWithOperation(Node<K,T> head, Consumer<Node<K,T>> operation) {
 		if(head == null) {
 			return;
 		}
@@ -109,20 +112,20 @@ public class BST<T> implements DynamicSet<T> {
 		inOrderWalkWithOperation(head.right, operation);
 	}
 	
-	private Node<T> findNode(int key) {
-		Node<T> head = root;
+	private Node<K,T> findNode(K key) {
+		Node<K,T> head = root;
 		if(head == null)
 			return null;
 		while (key != head.key) {
-			if(key > head.key)
+			if(key.compareTo(head.key) > 0)
 				head = head.right;
-			else if (key < head.key)
+			else if (key.compareTo(head.key) < 0)
 				head = head.left;
 		}
 		return head;
 	}
 
-	private void transplant(Node<T> to, Node<T> from) {
+	private void transplant(Node<K,T> to, Node<K,T> from) {
 		if (to == root) {
 			root = from;
 		} else if (to == to.p.left) {
@@ -135,13 +138,13 @@ public class BST<T> implements DynamicSet<T> {
 		}
 	}
 	
-	private void deleteNode(Node<T> node) {
+	private void deleteNode(Node<K,T> node) {
 		if(node.right == null) {
 			transplant(node, node.left);
 		} else if (node.left == null) {
 			transplant(node, node.right);
 		} else {
-			Node<T> y = findMaxKey(node.right);
+			Node<K,T> y = findMaxKey(node.right);
 			if(y.p != node) {
 				transplant(y, y.right);
 				y.right = node.right;
@@ -156,8 +159,8 @@ public class BST<T> implements DynamicSet<T> {
 		}
 	}
 
-	private Node<T> findMaxKey(Node<T> node) {
-		Node<T> result = node;
+	private Node<K,T> findMaxKey(Node<K,T> node) {
+		Node<K,T> result = node;
 		while (result.left != null) {
 			result = result.left;
 		}

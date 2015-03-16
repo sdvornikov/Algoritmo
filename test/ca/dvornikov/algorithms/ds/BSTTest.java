@@ -10,7 +10,7 @@ public class BSTTest {
 	public void testGet() {
 		final int KEY = 20;
 		final Object value = new Object();
-		final BST<Object> bst = new BST<Object>();
+		final BST<Integer, Object> bst = new BST<Integer, Object>();
 		bst.insert(KEY, value);
 		final Object bstValue = bst.get(KEY);
 		assertEquals("Object returned from BST must be the same as inserted", value, bstValue);
@@ -18,7 +18,7 @@ public class BSTTest {
 
 	@Test
 	public void testInsert() {
-		final BST<Object> bst = new BST<Object>();
+		final BST<Integer, Object> bst = new BST<Integer, Object>();
 		bst.insert(5, null);
 		bst.insert(5, null);
 		bst.insert(1, null);
@@ -42,7 +42,7 @@ public class BSTTest {
 	 */
 	@Test
 	public void testRemoveCase1() {
-		final BST<Object> bst = new BST<Object>();
+		final BST<Integer, Object> bst = new BST<Integer, Object>();
 		bst.insert(10, null);
 		bst.insert(2, null);
 		bst.insert(5, null);
@@ -63,7 +63,7 @@ public class BSTTest {
 	 */
 	@Test
 	public void testRemoveCase2() {
-		final BST<Object> bst = new BST<Object>();
+		final BST<Integer, Object> bst = new BST<Integer, Object>();
 		bst.insert(10, null);
 		bst.insert(2, null);
 		bst.insert(1, null);
@@ -88,7 +88,7 @@ public class BSTTest {
 	 */
 	@Test
 	public void testRemoveCase3() {
-		final BST<Object> bst = new BST<Object>();
+		final BST<Integer, Object> bst = new BST<Integer, Object>();
 		bst.insert(10, null);
 		bst.insert(20, null);
 		bst.insert(15, null);
@@ -112,7 +112,7 @@ public class BSTTest {
 	 */
 	@Test
 	public void testRemoveRoot() {
-		final BST<Object> bst = new BST<Object>();
+		final BST<Integer, Object> bst = new BST<Integer, Object>();
 		bst.insert(5, null);
 		bst.insert(2, null);
 		bst.insert(6, null);
@@ -122,7 +122,7 @@ public class BSTTest {
 
 	@Test
 	public void testSize() {
-		final BST<Object> bst = new BST<Object>();
+		final BST<Integer, Object> bst = new BST<Integer, Object>();
 		assertEquals("Empty BST must have zero size", 0, bst.size());
 		bst.insert(5, null);
 		bst.insert(5, null);
