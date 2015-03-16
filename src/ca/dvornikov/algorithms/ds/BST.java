@@ -130,12 +130,14 @@ public class BST<T> implements DynamicSet<T> {
 			transplant(node, node.right);
 		} else {
 			Node<T> y = findMaxKey(node.right);
-			transplant(y, y.right);
+			if(y.p != node) {
+				transplant(y, y.right);
+				y.right = node.right;
+				y.right.p = y;
+			}
 			transplant(node, y);
-			y.right = node.right;
 			y.left = node.left;
-			y.left.p = y;
-			y.right.p = y;
+			y.left.p = y;	
 		}
 		if(node != null) {
 			size--;
