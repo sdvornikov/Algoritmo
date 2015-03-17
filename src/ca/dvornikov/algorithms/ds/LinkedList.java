@@ -60,6 +60,32 @@ public class LinkedList<E> {
 		return element.value;
 	}
 	
+	/**
+	 * Inserts value at a specified position in a linked list
+	 * 
+	 * @param index position in the list
+	 * @param value value to insert
+	 * @throws ArrayIndexOutOfBoundsException if size of a list is less than index
+	 */
+	public void put(int index, E value) {
+		Entry<E> next;
+		if(index == 0) {
+			next = head;
+			Entry<E> newEntry = new Entry<E>(value);
+			newEntry.next = next;
+			head = newEntry;
+			return;
+		}
+		Entry<E> element = getElement(index-1);
+		if(element == null) {
+			throw new ArrayIndexOutOfBoundsException("Cannot insert at " + index);
+		}
+		next = element.next;
+		Entry<E> newEntry = new Entry<E>(value);
+		element.next = newEntry;
+		newEntry.next = next;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("LinkedList: ");

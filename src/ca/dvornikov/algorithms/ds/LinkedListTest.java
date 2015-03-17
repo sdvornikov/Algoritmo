@@ -34,4 +34,23 @@ public class LinkedListTest {
 		} catch (ArrayIndexOutOfBoundsException e) {}
 	}
 
+	@Test
+	public void testPut() {
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		list.put(0,5);
+		list.push(10);
+		list.push(1);
+		list.put(0, 15);
+		list.put(2, 13);
+		list.put(5, 99);
+		
+		assertEquals(15, list.get(0).intValue());
+		assertEquals(13, list.get(2).intValue());
+		assertEquals(99, list.get(5).intValue());
+		try {
+			list.put(10, 3);
+			fail("put(10, value) on an a list of 4 elements should throw an exception");
+		} catch (ArrayIndexOutOfBoundsException e) {}
+	}
+	
 }
