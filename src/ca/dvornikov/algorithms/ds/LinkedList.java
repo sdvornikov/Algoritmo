@@ -1,9 +1,16 @@
 package ca.dvornikov.algorithms.ds;
 
+/**
+ * A very basic implementation of a liked list
+ * This class exposes its internals to allow external algorithms to operate on low level
+ * @author Sergey Dvornikov
+ *
+ * @param <E>
+ */
 public class LinkedList<E> {
-	private static class Entry<E> {
-		Entry<E> next;
-		E value;
+	public static class Entry<E> {
+		public Entry<E> next;
+		public E value;
 		@Override
 		public String toString() {
 			return ""+value;
@@ -38,7 +45,13 @@ public class LinkedList<E> {
 		head = head.next;
 		return value;
 	}
-	
+
+	/**
+	 * returns value of element at index
+	 * @param index
+	 * @return value in list at specified index
+	 * @throws ArrayIndexOutOfBoundsException is list length is less or equal than index
+	 */
 	public E get(int index) {
 		int i=0;
 		Entry<E> element = head;
@@ -50,5 +63,28 @@ public class LinkedList<E> {
 			i++;
 		}
 		return element.value;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder("LinkedList: ");
+		Entry<E> element = head;
+		
+		while(element != null) {
+			builder.append(element.toString());
+			element = element.next;
+			if (element != null) {
+				builder.append(" -> ");
+			}
+		}
+		return builder.toString();
+	}
+	
+	///////// export implementation details ////
+	public Entry<E> getHead() {
+		return head;
+	}
+	public void setHead(Entry<E> head) {
+		this.head = head;
 	}
 }
