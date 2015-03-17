@@ -25,6 +25,11 @@ public class LinkedList<E> {
 		head = entry;
 	}
 	
+	/**
+	 * removes head element from the list.
+	 * @return removed element's value
+	 * @throws ArrayIndexOutOfBoundsException is list is empty
+	 */
 	public E pop() {
 		if(head == null) {
 			throw new ArrayIndexOutOfBoundsException("Stack underflow");
@@ -32,5 +37,18 @@ public class LinkedList<E> {
 		E value = head.value;
 		head = head.next;
 		return value;
+	}
+	
+	public E get(int index) {
+		int i=0;
+		Entry<E> element = head;
+		while(i < index) {
+			element = element.next;
+			if(element == null) {
+				throw new ArrayIndexOutOfBoundsException("No element at index " + index);
+			}
+			i++;
+		}
+		return element.value;
 	}
 }
