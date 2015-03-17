@@ -53,14 +53,9 @@ public class LinkedList<E> {
 	 * @throws ArrayIndexOutOfBoundsException is list length is less or equal than index
 	 */
 	public E get(int index) {
-		int i=0;
-		Entry<E> element = head;
-		while(i < index) {
-			element = element.next;
-			if(element == null) {
-				throw new ArrayIndexOutOfBoundsException("No element at index " + index);
-			}
-			i++;
+		Entry<E> element = getElement(index);
+		if(element == null) {
+			throw new ArrayIndexOutOfBoundsException("No element at index " + index);
 		}
 		return element.value;
 	}
@@ -78,6 +73,16 @@ public class LinkedList<E> {
 			}
 		}
 		return builder.toString();
+	}
+	
+	private Entry<E> getElement(int index) {
+		int i=0;
+		Entry<E> element = head;
+		while(i < index && element != null) {
+			element = element.next;
+			i++;
+		}
+		return element;
 	}
 	
 	///////// export implementation details ////
