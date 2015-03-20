@@ -86,6 +86,10 @@ public class LinkedList<E> {
 		newEntry.next = next;
 	}
 	
+	public int size() {
+		return countEntries();
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("LinkedList: ");
@@ -109,6 +113,16 @@ public class LinkedList<E> {
 			i++;
 		}
 		return element;
+	}
+	
+	private int countEntries() {
+		Entry<E> entry = head;
+		int count = 0;
+		while(entry != null) {
+			count++;
+			entry = entry.next;
+		}
+		return count;
 	}
 	
 	///////// export implementation details ////

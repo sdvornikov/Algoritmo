@@ -53,4 +53,16 @@ public class LinkedListTest {
 		} catch (ArrayIndexOutOfBoundsException e) {}
 	}
 	
+	@Test
+	public void testSize() {
+		LinkedList<Integer> list = new LinkedList<Integer>();
+		assertEquals(0, list.size());
+		list.push(5);
+		list.put(1,5);
+		assertEquals(2, list.size());
+		list.pop();
+		list.pop();
+		assertEquals(0, list.size());
+	}
+	
 }
