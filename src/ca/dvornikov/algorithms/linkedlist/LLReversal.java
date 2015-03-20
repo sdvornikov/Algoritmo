@@ -1,4 +1,4 @@
-package ca.dvornikov.algorithms;
+package ca.dvornikov.algorithms.linkedlist;
 
 import ca.dvornikov.algorithms.ds.LinkedList;
 import ca.dvornikov.algorithms.ds.LinkedList.Entry;
