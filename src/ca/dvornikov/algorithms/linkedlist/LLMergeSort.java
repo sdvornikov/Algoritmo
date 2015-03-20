@@ -49,15 +49,11 @@ public class LLMergeSort {
 		Entry<Integer> preHead = new Entry<Integer>(null);
 		Entry<Integer> current = preHead;
 		while(leftCnt < leftSize || rightCnt < rightSize) {
-			if(leftCnt >= leftSize ) {
+			if(leftCnt >= leftSize) {
 				current.next = rightHead;
 				rightHead = rightHead.next;
 				rightCnt++;
-			} else if (rightCnt >= rightSize) {
-				current.next = leftHead;
-				leftHead = leftHead.next;
-				leftCnt++;
-			} else if(leftHead.value.compareTo(rightHead.value) < 0) {
+			} else if (rightCnt >= rightSize || leftHead.value.compareTo(rightHead.value) < 0) {
 				current.next = leftHead;
 				leftHead = leftHead.next;
 				leftCnt++;
